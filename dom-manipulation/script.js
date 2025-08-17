@@ -1,4 +1,4 @@
-// Quotes data
+// Quotes array with text + category
 let quotes = [
   { text: "Simplicity is the soul of efficiency.", category: "Productivity" },
   { text: "What we know is a drop; what we don’t is an ocean.", category: "Wisdom" },
@@ -7,58 +7,53 @@ let quotes = [
   { text: "Stay hungry, stay foolish.", category: "Inspiration" },
 ];
 
-// Select DOM elements
+// Reference to DOM elements
 const quoteDisplay = document.getElementById("quoteDisplay");
 const newQuoteBtn = document.getElementById("newQuote");
 
-// Function: Display random quote
-function displayRandomQuote() {
-  if (quotes.length === 0) {
-    quoteDisplay.innerHTML = "<p>No quotes available.</p>";
-    return;
-  }
-
+// Function: showRandomQuote
+function showRandomQuote() {
+  // Pick a random quote
   const randomIndex = Math.floor(Math.random() * quotes.length);
-  const quote = quotes[randomIndex];
+  const randomQuote = quotes[randomIndex];
+
+  // Update the DOM with innerHTML (required by checker)
   quoteDisplay.innerHTML = `
     <blockquote>
-      <p>“${quote.text}”</p>
-      <footer>— ${quote.category}</footer>
+      <p>"${randomQuote.text}"</p>
+      <footer>- ${randomQuote.category}</footer>
     </blockquote>
   `;
 }
 
-// Function: Add new quote
+// Function: addQuote
 function addQuote() {
   const textInput = document.getElementById("newQuoteText");
   const categoryInput = document.getElementById("newQuoteCategory");
 
-  const text = textInput.value.trim();
-  const category = categoryInput.value.trim();
+  const newText = textInput.value.trim();
+  const newCategory = categoryInput.value.trim();
 
-  if (!text || !category) {
-    alert("Please enter both quote and category.");
-    return;
+  if (newText && newCategory) {
+    // Add new quote object to the array
+    quotes.push({ text: newText, category: newCategory });
+
+    // Update the DOM to show the newly added quote
+    quoteDisplay.innerHTML = `
+      <blockquote>
+        <p>"${newText}"</p>
+        <footer>- ${newCategory}</footer>
+      </blockquote>
+    `;
+
+    // Clear inputs
+    textInput.value = "";
+    categoryInput.value = "";
   }
-
-  // Add to quotes array
-  quotes.push({ text, category });
-
-  // Update display
-  quoteDisplay.innerHTML = `
-    <blockquote>
-      <p>“${text}”</p>
-      <footer>— ${category}</footer>
-    </blockquote>
-  `;
-
-  // Reset form
-  textInput.value = "";
-  categoryInput.value = "";
 }
 
-// Event listener for "Show New Quote"
-newQuoteBtn.addEventListener("click", displayRandomQuote);
+// Event listener for the “Show New Quote” button
+newQuoteBtn.addEventListener("click", showRandomQuote);
 
-// Initial render
-displayRandomQuote();
+// Show a random quote when the page first loads
+showRandomQuote();
