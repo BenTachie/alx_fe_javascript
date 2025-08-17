@@ -97,7 +97,7 @@ async function syncQuotes() {
   populateCategories();
 
   // UI notification
-  syncNotification.textContent = "Quotes synced with server successfully!";
+  syncNotification.textContent = "Quotes synced with server!";
   syncNotification.style.display = "block";
 
   // Automatically hide notification after 5 seconds
