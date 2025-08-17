@@ -32,6 +32,9 @@ function loadQuotes() {
 // -----------------------
 const quoteDisplay = document.getElementById("quoteDisplay");
 const newQuoteBtn = document.getElementById("newQuote");
+const addQuoteBtn = document.getElementById("addQuoteBtn");
+const exportBtn = document.getElementById("exportBtn");
+const importFile = document.getElementById("importFile");
 
 // -----------------------
 // Quote Functions
@@ -77,31 +80,10 @@ function addQuote() {
     // Save this new quote as last viewed in sessionStorage
     sessionStorage.setItem("lastQuote", JSON.stringify({ text: newText, category: newCategory }));
 
-    // Clear inputs
+    // Clear input fields
     textInput.value = "";
     categoryInput.value = "";
   }
-}
-
-// ✅ createAddQuoteForm
-function createAddQuoteForm() {
-  const formContainer = document.createElement("div");
-
-  formContainer.innerHTML = `
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button id="addQuoteBtn" type="button">Add Quote</button>
-    <br/><br/>
-    <button id="exportBtn" type="button">Export Quotes (JSON)</button>
-    <input type="file" id="importFile" accept=".json" />
-  `;
-
-  document.body.appendChild(formContainer);
-
-  // Event listeners
-  document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
-  document.getElementById("exportBtn").addEventListener("click", exportToJsonFile);
-  document.getElementById("importFile").addEventListener("change", importFromJsonFile);
 }
 
 // -----------------------
@@ -139,8 +121,12 @@ function importFromJsonFile(event) {
 // -----------------------
 function init() {
   loadQuotes(); // Load from localStorage
-  createAddQuoteForm(); // Build the form dynamically
+
+  // Event listeners
   newQuoteBtn.addEventListener("click", showRandomQuote);
+  addQuoteBtn.addEventListener("click", addQuote);
+  exportBtn.addEventListener("click", exportToJsonFile);
+  importFile.addEventListener("change", importFromJsonFile);
 
   // Load last viewed quote if available in sessionStorage
   const lastQuote = sessionStorage.getItem("lastQuote");
